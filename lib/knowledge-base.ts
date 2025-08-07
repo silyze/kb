@@ -36,12 +36,13 @@ export default class KnowledgeBase<
     return documentReference;
   }
 
-  query(
+  async query(
     text: string,
     documents?: TDocumentReference[],
     limit?: number,
     offset?: number
   ) {
-    return this.#vectorStore.query(text, documents, limit, offset);
+    const { vector } = await this.#embeddingProvider.create(text);
+    return this.#vectorStore.query(vector, documents, limit, offset);
   }
 }

@@ -1,5 +1,5 @@
 import { AsyncReadStream } from "@mojsoski/async-stream";
-import { Embedding } from "./embedding";
+import { Embedding, Vector } from "./embedding";
 
 export interface EmbeddingResult<TDocumentReference> extends Embedding {
   distance: number;
@@ -11,7 +11,7 @@ export default abstract class VectorStore<
   TDocument extends { id: TDocumentReference }
 > {
   abstract query(
-    text: string,
+    vector: Vector,
     documents?: TDocumentReference[],
     limit?: number,
     offset?: number

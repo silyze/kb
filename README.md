@@ -106,7 +106,7 @@ Produces a vector embedding for a given text.
 ```ts
 abstract class VectorStore<TDocumentReference, TDocument> {
   query(
-    text,
+    vector,
     documents?,
     limit?,
     offset?
