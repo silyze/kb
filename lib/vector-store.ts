@@ -28,4 +28,8 @@ export default abstract class VectorStore<
     document: Omit<TDocument, "id">
   ): Promise<TDocumentReference>;
   abstract getDocuments(): AsyncReadStream<TDocument>;
+
+  abstract getDocumentByReference(
+    reference: TDocumentReference
+  ): Promise<TDocument | undefined>;
 }

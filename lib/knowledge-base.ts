@@ -45,6 +45,10 @@ export class DocumentReference<
   async delete() {
     await this.#vectorStore.delete(this.#reference);
   }
+
+  asDocument(): Promise<Document<TDocumentReference, TDocument> | undefined> {
+    return this.#knowledgeBase.getDocument(this.#reference);
+  }
 }
 
 export class Document<
@@ -105,6 +109,22 @@ export default class KnowledgeBase<
       .transform()
       .map((document) => new Document(this.#vectorStore, this, document))
       .stream();
+  }
+
+  referenceDocument(
+    reference: TDocumentReference
+  ): DocumentReference<TDocumentReference, TDocument> {
+    return new DocumentReference(this.#vectorStore, this, reference);
+  }
+
+  async getDocument(
+    reference: TDocumentReference
+  ): Promise<Document<TDocumentReference, TDocument> | undefined> {
+    const document = await this.#vectorStore.getDocumentByReference(reference);
+    if (!document) {
+      return undefined;
+    }
+    return new Document(this.#vectorStore, this, document);
   }
 
   queryDocuments(
